@@ -6,11 +6,11 @@ import (
 )
 
 func Remove(name string) {
-	err := exec.Command("yarn", "add", name).Run()
+	err := exec.Command("yarn", "remove", name).Run()
 	if err != nil {
 		fmt.Println(err)
 	}
-	err = exec.Command("yarn", "add", "@types/"+name, "--dev").Run()
+	err = exec.Command("yarn", "remove", "@types/"+name).Run()
 	if err != nil {
 		fmt.Println(err)
 	}
