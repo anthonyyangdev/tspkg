@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
@@ -20,12 +19,10 @@ type projectJSON struct {
 	Author      string   `json:"author,omitempty"`
 }
 
-func buildPackage() {
+func buildPackage() error {
 	path, err := os.Getwd()
-	if err != nil {
-		fmt.Println("Error:", err)
-		os.Exit(1)
-	}
+	if err != nil {return err}
+
 	var packageJSON projectJSON
 
 	basename := filepath.Base(path)
@@ -43,18 +40,13 @@ func buildPackage() {
 	}
 
 	file, err := os.Create("package.json")
-	if err != nil {
-		fmt.Println("Error:", err)
-		os.Exit(1)
-	}
+	if err != nil {return err}
+
 	data, err := json.MarshalIndent(packageJSON, "", "  ")
-	if err != nil {
-		fmt.Println("Error:", err)
-		os.Exit(1)
-	}
+	if err != nil {return err}
+
 	_, err = file.Write(data)
-	if err != nil {
-		fmt.Println("Error:", err)
-		os.Exit(1)
-	}
+	if err != nil {return err}
+
+	return nil
 }

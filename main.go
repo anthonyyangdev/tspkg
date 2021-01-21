@@ -15,29 +15,27 @@ func main() {
 		return
 	}
 	command := args[0]
-
 	switch command {
 	case "check":
 		checkEnv()
 	case "init":
 		initProject()
 	case "add":
-		if len(args) < 1 {
-			fmt.Println("Make sure to include what package to add")
-			return
+		for _, pkg := range args[1:] {
+			registry.Get(pkg)
 		}
-		target := args[1]
-		registry.Get(target)
 	case "remove":
+		for _, pkg := range args[1:] {
+			registry.Remove(pkg)
+		}
 	default:
 		fmt.Println("Command", command, "is not recognized")
 	}
 }
 
 func initProject() {
-	err := exec.Command("tsc", "--init").Run()
-	if err != nil {
-		panic(err)
-	}
-	buildPackage()
+	err := buildPackage()
+	if err != nil {panic(err)}
+	err = exec.Command("tsc", "--init").Run()
+	if err != nil {panic(err)}
 }
