@@ -9,6 +9,9 @@ import (
 // If there are any missing dependencies, then those dependencies are output to the standard output.
 // Otherwise, a message that the environment looks good is output.
 func checkEnv() bool {
+
+	fmt.Println("Checking for tsc, node, (npm or yarn) installations.")
+
 	var missing []string
 	_, errTsc := searchCommand("tsc")
 	if errTsc != nil {
@@ -30,7 +33,7 @@ func checkEnv() bool {
 		}
 		return true
 	} else {
-		fmt.Println("Looks good")
+		fmt.Println("Looks good!")
 		return false
 	}
 }
